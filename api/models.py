@@ -312,3 +312,23 @@ class IOSFile(models.Model):
         managed = False
         db_table = 'dent_iosfile'
 
+class OtherImageFile(models.Model):
+    id = models.AutoField(primary_key=True)
+    orgid = models.ForeignKey(Organisation, on_delete=models.CASCADE)
+    parent_orgid = models.CharField(null=True, blank=True, max_length=200)
+    repid = models.IntegerField(null = True, blank = True)
+    sodrid = models.IntegerField(null = True, blank = True)
+    topid = models.IntegerField(null = True, blank = True)
+    pid = models.IntegerField(null = True, blank = True)
+    file = models.FileField(upload_to = 'otherFile/')
+    size = models.IntegerField(null=True, blank=True)
+    fileName = models.CharField(max_length=100, null = True, blank = True)
+    fileStatus = models.CharField(max_length=100, null = True, blank = True)
+    fileComment = models.CharField(max_length=100, null = True, blank = True)
+    thumbnail = models.ImageField(upload_to='static/otherThumb/')
+    date = models.DateField(default = date.today)        
+
+    class Meta:
+        managed = False
+        db_table = 'dent_otherimagefile'
+
