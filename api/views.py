@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -70,18 +70,15 @@ class AuthenticateView(APIView):
             else:
                 user = Users.objects.filter(contact=data.get('contact'), password=data.get('password')).first()
 
-            if user is None:
+            if user:
+                payload = {'id': user.id,'email':user.email, 'exp': datetime.utcnow() + timedelta(minutes=100), 'iat': datetime.utcnow()}
+                token = jwt.encode(payload, 'secret', algorithm='HS256')
+                response['status'] = True
+                response['token'] = token
+                response['message'] = 'User logged in'
+            else:
                 response['message'] = 'Unauthorized request.'
                 raise Exception('Unauthorized request.')
-
-     
-            payload = {'id': user.id,'email':user.email, 'exp': datetime.utcnow() + timedelta(minutes=100),
-                       'iat': datetime.utcnow()}
-
-            token = jwt.encode(payload, 'secret', algorithm='HS256')
-            response['status'] = True
-            response['token'] = token
-            response['message'] = 'User logged in'
 
         except Exception as e:
             response['message'] = str(e)
@@ -96,7 +93,6 @@ class OrthancUploadfile(APIView):
         except Exception as e:
             return Response({'error': 'token expired'}, status=status.HTTP_400_BAD_REQUEST)
 
-
         userobj = Users.objects.get(id=payload['id'])
         org = Organisation.objects.get(id=userobj.orgid_id)
         print(payload)
@@ -105,12 +101,13 @@ class OrthancUploadfile(APIView):
             return Response({'error': 'No file found in the request.'}, status=status.HTTP_400_BAD_REQUEST)
 
         file_obj = request.FILES['file']
+        print('true or false', is_file_object(file_obj))
+
 
         checkextension = checkfileextensions(file_obj)
         if checkextension in [".jpg", ".jpeg", ".png", ".pdf", ".html", ".htm"]:
             print('checkextension4567', checkextension)
             print('yess other file working and loading')
-            print(is_file_object(file_obj))
             Azure_Connection(file_obj, 'test petientname', org)
             return Response(
                 {'message': 'File uploaded successfully to Azure Server.',
@@ -130,7 +127,7 @@ class OrthancUploadfile(APIView):
                         print('running for 0000009', dicom_file)
                         auth = HTTPBasicAuth('dentread', 'dentread')
                         print('not running 777')
-                        orthanc = Orthanc('http://demo.dentread.com:8042', auth=auth, warn_insecure=False)
+                        orthanc = Orthanc('http://127.0.0.1:8042', auth=auth, warn_insecure=False)
                         print('welll 7878', orthanc)
                         ort = orthanc.add_instance(file_obj.read(), timeout_spec=t)
                         print('ort', ort)
@@ -184,6 +181,7 @@ class OrthancUploadfile(APIView):
         else:
             return Response({'message': "file not accepted"})
 
+
 class DownloanFile(APIView):
     def get(self, request):
         data = request.data
@@ -193,29 +191,16 @@ class DownloanFile(APIView):
         except Exception as e:
             return Response({'error': 'token expired'}, status=status.HTTP_400_BAD_REQUEST)
 
-        if data.get('type') == 1:
+        if data.get('type') == 1 or data.get('type') == 3:
             try:
                 userobj = Users.objects.get(id=payload['id'])
                 org = Organisation.objects.get(id=userobj.orgid_id)
                 print(payload)
                 container_name = 'dentread-blob'
-                file_record = IOSFile.objects.get(id=35, orgid=130)
-                blob_client = blob_service_client.get_blob_client(container=container_name, blob=file_record.fileName)
-                download_stream = blob_client.download_blob()
-                response = HttpResponse(download_stream.readall(),
-                                        content_type=blob_client.get_blob_properties().content_settings.content_type)
-                response['Content-Disposition'] = f'attachment; filename="{file_record.fileName}"'
-                print('response file name', response['Content-Disposition'])
-                return response
-            except Exception as e:
-                return Response({'status': False, 'message': 'download failed'})
-        if data.get('type') == 3:
-            try:
-                userobj = Users.objects.get(id=payload['id'])
-                org = Organisation.objects.get(id=userobj.orgid_id)
-                print(payload)
-                container_name = 'dentread-blob'
-                file_record = OtherImageFile.objects.get(id=42, orgid=130)
+                if data.get('type') == 1:
+                    file_record = IOSFile.objects.get(id=399, orgid=130)
+                elif data.get('type') == 3:
+                    file_record = OtherImageFile.objects.get(id=53, orgid=130)
                 blob_client = blob_service_client.get_blob_client(container=container_name, blob=file_record.fileName)
                 download_stream = blob_client.download_blob()
                 response = HttpResponse(download_stream.readall(),
@@ -227,8 +212,8 @@ class DownloanFile(APIView):
                 return Response({'status': False, 'message': 'download failed'})
 
         elif data.get('type') == 2:
-            line_item = ServiceOrder.objects.get(id=135, orgid=37)
-            url = 'http://demo.dentread.com:8042/patients/' + str(line_item.ParentStudy) + '/archive'
+            line_item = ServiceOrder.objects.get(id=5774, orgid=130)
+            url = 'http://127.0.0.1:8042/studies/' + str(line_item.ParentStudy) + '/archive'
             auth = HTTPBasicAuth('dentread', 'dentread')
             response = requests.get(url, auth=auth)
             if response.status_code == 200:
@@ -455,5 +440,6 @@ class DownloanFile(APIView):
 #         else:
 #             return Response({'error': 'Please choose a file first.'}, status=status.HTTP_400_BAD_REQUEST)
 #         return Response({"message":"something went wrong"})
-        
+
+
 

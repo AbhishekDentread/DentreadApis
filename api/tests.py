@@ -5,6 +5,9 @@ import requests
 from bs4 import BeautifulSoup
 from azure.storage.blob import BlobServiceClient, ContentSettings
 from .models import Users,Patient,Organisation,ServiceOrder,IOSFile,OtherImageFile
+from datetime import datetime
+current_datetime = datetime.now()
+formatted_datetime = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
 import datetime
 
 def Patient_Info_form_htmlfile(zip_file_path, extensions):
@@ -32,7 +35,7 @@ def Patient_Info_form_htmlfile(zip_file_path, extensions):
 
 def Get_Patient_Name(ParentPatient):
     patientname = ''
-    url = 'http://demo.dentread.com:8042/patients/' + ParentPatient
+    url = 'http://127.0.0.1:8042/patients/' + ParentPatient
     username = 'dentread'
     password = 'dentread'
 
@@ -145,9 +148,7 @@ def Azure_Connection(file_obj,petient,org):
             f"DefaultEndpointsProtocol=https;AccountName=dentreadstorage;AccountKey=D+0JUNhnESDOErn3cSOcDA645vLmxaF7RqPwR7RYWwd5aosXxNYkALlkWYS/1WAROESDe1nn76Eg+ASt9vYCqQ==;EndpointSuffix=core.windows.net"
         )
     container_name = 'dentread-blob'
-    from datetime import datetime
-    current_datetime = datetime.now()
-    formatted_datetime = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
+
 
     if isinstance(file_obj, list):
         for file_info in file_obj:
@@ -163,15 +164,13 @@ def Azure_Connection(file_obj,petient,org):
     else:
         file_name = file_obj.name
         filesize = file_obj.size
-        file_with_time = file_name + str(formatted_datetime)
+        file_with_time = file_name
         blob_client = blob_service_client.get_blob_client(container=container_name, blob=file_with_time)
         blob_client.upload_blob(file_obj)
         print('file_object15',file_obj)
         print('file_object15',type(file_obj))
         OtherFiles(petient,org,file_obj,filesize)
 
-
-        
 import pydicom
 
 
@@ -204,9 +203,9 @@ def checkfileextensions(file):
         return file_extension
 
 import io
-
+from django.core.files.uploadedfile import UploadedFile
 def is_file_object(obj):
-    return isinstance(obj, io.IOBase)
+    return isinstance(obj, UploadedFile)
 
 
 

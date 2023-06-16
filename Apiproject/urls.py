@@ -8,6 +8,5 @@ urlpatterns = [
     # path('admin/', admin.site.urls),
     path('authenticate/',  AuthenticateView.as_view()),
     path('uploadfile/', OrthancUploadfile.as_view(), name='upload'),
-    # path('mydata/', fetchdata, name='upload'),
     path('DownloanFile/', DownloanFile.as_view(), name='upload'),
 ]
