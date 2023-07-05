@@ -3,3 +3,4 @@ otherFile/*,
 static/otherThumb/*,
 */__pycache__
 */*/__pycache__
+

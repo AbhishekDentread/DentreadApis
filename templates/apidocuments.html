@@ -1,0 +1,913 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dentread</title>
+        <!-- Bootstrap CDN -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{% static 'css/font-awesome/font-awesome.min.css' %}">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/circle-progress/1.2.2/circle-progress.min.js"></script>
+        <!-- Custom CSS -->
+        <style>
+
+            *{
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            body{
+                padding-left: 7rem;
+                padding-right: 2rem;
+            }
+            .navbar-brand {
+                font-size: 2rem;
+                font-weight: bold;
+            }
+
+            .navbar-nav li a {
+                font-size: 1.2rem;
+            }
+
+            .carousel-item {
+                height: 80vh;
+                background-size: cover;
+                color: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .footer {
+                background-color: #f8f9fa;
+                padding: 20px 0;
+                text-align: center;
+            }
+            .navbar-nav .nav-link {
+                color: black !important;
+            }
+
+            /* Dropdown Styles */
+            .nav-item {
+                position: relative;
+            }
+
+            .nav-item .dropdown-menu {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                z-index: 1000;
+                display: none;
+            }
+
+            .nav-item:hover .dropdown-menu {
+                display: block;
+            }
+            .myItems{
+                min-width: fit-content;
+            }
+            .itemList{
+                gap: 2rem;
+            }
+            .itemList .nav-item .nav-link {
+                font-family: Arial, sans-serif;
+                font-size: inherit;
+            }
+            .navbar.navbar-expand-lg.navbar-dark .navbar-collapse.collapse:not(.show){
+                padding: 0;
+            }
+            .navbar-dark .navbar-toggler{
+                color: black;
+            }
+
+            .flex-container {
+                flex-direction: row;
+                flex-wrap: nowrap;
+                justify-content: normal;
+                align-items: normal;
+                align-content: space-between;
+                }
+
+                .flex-items:nth-child(1) {
+                display: block;
+                flex-grow: 0;
+                flex-shrink: 1;
+                flex-basis: auto;
+                align-self: auto;
+                order: 0;
+                }
+
+                .flex-items:nth-child(2) {
+                display: block;
+                flex-grow: 0;
+                flex-shrink: 1;
+                flex-basis: auto;
+                align-self: auto;
+                order: 0;
+                }
+
+                .flex-items:nth-child(3) {
+                display: block;
+                flex-grow: 0;
+                flex-shrink: 1;
+                flex-basis: auto;
+                align-self: auto;
+                order: 0;
+                }
+                .myCustom{
+                    width: 150%;
+
+                }
+
+                .custom-header{
+                    width: 532px;
+                    height: 36px;
+
+                    font-family: 'Poppins';
+                    font-style: normal;
+                    font-weight: 650;
+                    font-size: 30px;
+                    line-height: 36px;
+                    /* identical to box height */
+
+
+                    /* Heading */
+
+                    color: #333333;
+
+
+                    /* Inside auto layout */
+
+                    flex: none;
+                    order: 0;
+                    flex-grow: 0;
+                }
+                p{
+                    width: 100%;
+                    line-height: 21px;
+                    display: flex;
+                    align-items: center;
+                    /* Heading */
+                    color: #333333;
+                    /* Inside auto layout */
+                    flex: none;
+                    order: 0;
+                    flex-grow: 0;
+                }
+                .content-header{
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    padding: 10px 10px 16px;
+                    gap: 10px;
+                    width: 100%;
+                    height: 32px;
+
+                    /* Brand Blue */
+
+                    background: rgba(0, 0, 0, 0.7);
+                    border-radius: 6px 6px 0px 0px;
+
+                    /* Inside auto layout */
+
+                    flex: none;
+                    order: 0;
+                    flex-grow: 0;
+                }
+                .content-poperty {
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: nowrap;
+                    justify-content: space-between;
+                    align-items: normal;
+                    align-content: normal;
+                    width: 100%;
+                }
+                .content-text{
+                    width: 80px;
+                    height: 21px;
+                    font-family: 'Poppins';
+                    font-style: normal;
+                    font-weight: 400;
+                    font-size: 14px;
+                    line-height: 13px;
+                    align-items: center;
+                    color: #FFFFFF;
+                }
+                .layout-text{
+                    font-family: "Inter", sans-serif;
+                    font-size: 14px;
+                    font-style: normal;
+                    /* line-height: 20px; */
+                    align-items: center;
+                    color: white;
+                }
+                .layout-st{
+                    padding: 1rem;
+                    background: rgba(0, 0, 0, 0.9);
+                    font-family: SFMono-Medium, "SF Mono", "Segoe UI Mono", "Roboto Mono", "Ubuntu Mono", Menlo, Consolas, Courier, monospace;
+                    font-size: 14px;
+                    color: white;
+                }
+                .customnav-header{
+                    position: sticky;
+                    background-color: white;
+                    top: 0;
+                    left: 0;
+                }
+                .custom-content{
+                    padding-top: 150px;
+                }
+                .myContent{
+                    display: none;
+                }
+                .sub-header{
+                padding-bottom:25px;
+                }
+                .notification {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        z-index: 9999;
+      }
+
+
+      .popup {
+        position: absolute;
+        top: 200px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        z-index: 9999;
+        display: none;
+      }
+      .cont-head {
+    background-color: aliceblue;
+
+    padding: 20px;
+    border-radius: 5px;
+    margin-top:25px;margin-bottom:25px;
+}
+
+
+
+
+        </style>
+    </head>
+
+    <body>
+        <!-- Navbar -->
+        <div class="customnav-header w-100">
+            <nav class="navbar navbar-expand-lg navbar-dark">
+                <div class="d-flex w-100 justify-content-between">
+                    <div>
+                        <h3 style="margin-bottom:15px;">REST API Documentation</h3>
+                    </div>
+                    <div>
+                        <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"><i class="fa fa-bars" style="vertical-align: sub;" aria-hidden="true"></i></span>
+                        </button>
+                    </div>
+
+                </div>
+            </nav>
+        </div>
+        <div class="popup">Code Copied!</div>
+
+        <div class="flex-container">
+           
+            <div class="flex-items myCustom2">
+                <div class="tab-content tab-pane--enclosing" id="v-pills-tabContent" style="padding: 1.5rem;">
+                    <div class="tab-pane fade show active data-targetView-4" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                        <h4>
+                            Authentication API
+                         </h4>
+                         <hr>
+                         <h5 class="sub-header">
+                            Introduction:
+                         </h5>
+                            <ul>
+                                <li>Dentread provides public authentication API for developers.</li>
+                                <li>The API is very secure and fast as it is based on API key security.</li>
+                            </ul>
+                         <!--<h5 class="sub-header">
+                            Getting Started:
+                         </h5>
+                            <ul>
+                                <li>Developers can use easily this  API only with pass the request parameters</li>
+                                <li>Developers need to pass valid credentials for access this API</li>
+                            </ul>-->
+                         <h5 class="sub-header">
+                            API Endpoints:
+                         </h5>
+
+                        <div class="cont-head">
+                            <p class="cont-text">Endpoint: <b>https://test.dentread.com/Authenticate</b></p>
+                            <p class="cont-text">Developers can easily use this API only with pass valid Email or contact</p>
+
+                        </div>
+
+                            <ul>
+                                <li>You need to access this API with http POST method</li>
+                            </ul>
+
+                         <h5 class="sub-header">
+                            Request & Response Format:
+                         </h5>
+                            <ul>
+                                <li>You need to pass valid credentials only in JSON format.</li>
+                                <li>If you pass any wrong info then you will get error response, all types of errors handlings.</li>
+                            </ul>
+                         <h5 class="sub-header">
+                            Authentication Flow:
+                         </h5>
+                            <ul>
+                                <li>When you call this API with credentials then only you can access this API</li>
+                                <li>After Successfully called this API you will get a token key in the response </li>
+                            </ul>
+                         <div class="cont-head">
+                           <p class="cont-text" >// need to pass parameters:</p>
+                            <p class="cont-text">{"email":"example@gmail.com","password":"1234"}</p>
+
+                        </div>
+                            <ul>
+                                <li>If you passed any wrong credentials and request parameters then you will get a error response </li>
+                                <li>Error Response</li>
+                            </ul>
+                         <div class="cont-head">
+                            <p class="cont-text">// need to pass parameters:</p>
+                            <p class="cont-text">{
+                                "status": false,
+                                "message": "Unauthorized request.",
+
+                            }</p>
+                    </div>
+                                                    <div class="content-header">
+                                <div class="content-poperty" >
+                                    <h6 class="content-text">Api</h6>
+                                    <h6 class="content-text" onclick="copyTextToClipboard(this, 'codeToCopy1')" id="myid1"><i class="fa fa-clipboard" aria-hidden="true"></i> Copy Code</h6>
+                                </div>
+                            </div>
+                            <div class="layout-st" id="codeToCopy1">
+                                <p class="layout-text" >url = "https://cloud.dentread.com/authenticate"</p>
+                                <p class="layout-text" >payload = {
+    'email': 'example@gmail.com',
+    'password': 'xxxxxxxxxx'
+}</p>
+                                <p class="layout-text" >response = requests.post(url, data=payload)</p>
+
+                            </div>
+
+
+
+                    </div>
+
+                    <div class="tab-pane fade data-targetView-2" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                        <h4>
+                            API Overview
+                         </h4>
+                         <hr>
+
+                         <p>
+                    This section provides a top-level view of API and other customizations available to developers. </p>
+                    <h5 class="sub-header">
+                        OAuth API
+                     </h5>
+                     <p>
+                        Dentread uses the OAuth 2.0 authorization framework to issue access tokens on behalf of Dentread
+                         Sites. </p>
+                         <ul>
+                            <li>For more on authorization see: OAuth Authorization Docs</li>
+                            <li>For authorization-related endpoints see: Authorization API Reference
+                            </li>
+                        </ul>
+                        <p>Dentread is providing 3 public API for developrs.</p>
+                        <h5 class="sub-header">
+                            Authentication API
+                         </h5>
+                         <p>Dentread provide authentication API for developers and can use easily passing request parameters this is public API endpoints</p>
+
+                         <h5 class="sub-header">
+                            Files Upload API
+                         </h5>
+                         <p>Dentread provide file  upload  API for developers , developers can use this API for upload DICOM files and jpg , png etc. and also pass valid token for autherizaion</p>
+                         <h5 class="sub-header">
+                            Download Files API
+                         </h5>
+                         <p>Dentread provide file download API for developers , developers can easily download the file useing this API,  and also pass valid token for autherizaion</p>
+
+                    </div>
+
+                    <div class="tab-pane fade data-targetView-3" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                        <h4>
+                            Authorization Using API Key
+                         </h4>
+                         <hr>
+                         <p >If you want a simple way to gain access to the API for an individual Dentread Site with the purpose of uploading file and downloading , you can authorize using the Dentread Site's API Key.</p>
+                         <h5 class="sub-header">
+                            Finding your API key
+                         </h5>
+
+                         <p>If you want to get your API key then first you need to authenticate using pass request parameters like in the body:</p>
+                        <div class="cont-head">
+                            <p class="cont-text">// need to pass parameters:</p>
+      <p class="cont-text">{"email":"example@gmail.com","password":"1234"}</p>
+
+
+    </div>
+                        <p>When you call Authenticate API so autometically you will get a API key</p>
+                        <p>So you can use this key for autherizaion</p>
+
+                        <h5 class="sub-header">
+                            Success Response
+                         </h5>
+                         <p>When you call Authenticate API you will get Response:</p>
+                         <div class="cont-head">
+                            <p class="cont-text">// need to pass parameters:</p>
+                            <p class="cont-text">{
+                                "status": true,
+                                "message": "User logged in",
+                                "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTI5LC",
+                            }</p>
+
+                    </div>
+                    <h5 class="sub-header">
+                        Error Response
+                     </h5>
+                     <p>when you call API with wrong parameters or wrong information then:</p>
+                     <div class="cont-head" >
+                        <p class="cont-text" >// need to pass parameters:</p>
+                        <p class="cont-text">{
+                            "status": false,
+                            "message": "Unauthorized request.",
+
+                        }</p>
+
+                </div>
+                <p>When will you get API key then you can easily authorize</p>
+
+                    </div>
+
+                    <div class="tab-pane fade data-targetView-5" id="upload-tab" role="tabpanel" aria-labelledby="upload-tab-tab">
+                        <h4>
+                            File Upload API
+                         </h4>
+                         <hr>
+                         <h5 class="sub-header">
+                            Introduction:
+                         </h5>
+                            <ul>
+                                <li>Dentread provide public File Upload API for developers.</li>
+                                <li>Dentread Authentication API is very secure and fast it is based on API key security.</li>
+                            </ul>
+                         <h5 class="sub-header">
+                            Getting Started:
+                         </h5>
+                            <ul>
+                                <li>Developers can use easily this API only with pass the request parameters</li>
+                                <li>Developers need to send only request parameters Like file</li>
+                                <li>Developers can upload zip file but should be Dicomm or stl files inside zip folder</li>
+                                <li>Developers can also upload single files like jpeg, jpg, png, html, htm.</li>
+                            </ul>
+                         <h5 class="sub-header">
+                            API Endpoints:
+                         </h5>
+
+                        <div class="cont-head">
+                            <p class="cont-text">Endpoint: <b>https://test.dentread.com/uploadfile</b></p>
+
+                        </div>
+
+                            <ul>
+                                <li>You need to access this API with http POST method</li>
+                            </ul>
+
+                         <h5 class="sub-header">
+                            Request & Response Format
+                         </h5>
+                            <ul>
+                                <li>You need to pass valid parameters only in Like file.</li>
+                                <li>If you pass any wrong and invalid file so API will give you a message Like: file not accepted.</li>
+                                <li>All types of validation also there so use this API very carefully.</li>
+                            </ul>
+                         <h5>
+                            Api Flow:
+                         </h5>
+                            <ul>
+                                <li>when you call this API with parameters then only you can access this API</li>
+                                <li>And also you have to pass jwt token inside header section.</li>
+                                <li>After valid token your file successfully will upload.</li>
+                            </ul>
+                         <div class="cont-head">
+                            <p class="cont-text" >// need to pass parameters:</p>
+                            <p class="cont-text">{"file":"file path"}</p>
+
+                        </div>
+                            <ul>
+                                <li>If you passed any wrong parameters and invalid params then you will get a error response </li>
+                                <li>Error Response</li>
+                            </ul>
+                         <div class="cont-head">
+                            <p class="cont-text">// need to pass parameters:</p>
+                            <p class="cont-text">{'message': "failed to upload file"}</p>
+                    </div>
+
+                        <ul>
+                            <li>After successfully file upload you will get a API response</li>
+                            <li>Success Response</li>
+                        </ul>
+                     <div class="cont-head">
+                        <p class="cont-text">// need to pass parameters:</p>
+                        <p class="cont-text">{'message': 'File uploaded successfully to Azure Server.', 'filename': filename}</p>
+
+                </div>
+
+                        <p>You can call this API  through this give code.</p>
+
+                         <div class="content-header">
+                            <div class="content-poperty">
+                                <h6 class="content-text">Example</h6>
+                                <h6 class="content-text" onclick="copyTextToClipboard(this, 'codeToCopy2')"><i class="fa fa-clipboard" aria-hidden="true"></i> Copy code</h6>
+                            </div>
+                        </div>
+
+                        <div class="layout-st" id="codeToCopy2">
+                            <p class="layout-text" >url = "https://cloud.dentread.com/uploadfile"</p>
+                            <p class="layout-text" >headers = {
+    "Authorization": "XXXXXXXXXXXXXXXX"
+}</p>
+                            <p class="layout-text" >files = {'file': file}</p>
+                            <p class="layout-text" >response = requests.post(url, files=files, headers=headers)</p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="tab-pane fade data-targetView-6" id="download-tab" role="tabpanel" aria-labelledby="download-tab-tab">
+                        <h4>
+                            Download API
+                         </h4>
+                         <hr>
+                         <h5 class="sub-header">
+                            Introduction:
+                         </h5>
+                            <ul>
+                                <li>Dentread provide public File Upload API for developers.</li>
+                                <li>Dentread authentication API is very secure and fast it is based on API key security.</li>
+                            </ul>
+                         <h5 class="sub-header">
+                            Getting Started:
+                         </h5>
+                            <ul>
+                                <li>Developers can use easily this API only with pass the request parameters</li>
+                                <li>Developers need to send only request parameters Like:</li>
+                            </ul>
+                         <div class="cont-head">
+                            <p class="cont-text" >{"type":1}{"type":2}{"type":3}</p>
+                            and
+                            <p class="cont-text" >{"id":1}</p>
+
+                        </div>
+                            <ul>
+                                <li>You need to pass request parameters for download the files</li>
+                                <li>If you pass any wrong values then you will get error response</li>
+                                <li>If you are downloading zip file and contain Dicomm files then need to pass {"type":2} and {"id":1} in request parameters</li>
+                                <li>If you are downloading zip file and contain stl files then need to pass {"type":1} and {"id":1} in request parameters</li>
+                                <li>If you are downloading single files like: (png,jpeg,jpg,html,htm) then need to pass {"type":3} and {"id":1} in request parameters</li>
+                            </ul>
+
+                         <h5 class="sub-header">
+                            API Endpoints:
+                         </h5>
+
+
+                        <div class="cont-head">
+                            <p class="cont-text" >Endpoint: <b>https://test.dentread.com/downloanfile</b></p>
+
+                        </div>
+
+                            <ul>
+                                <li>You need to access this API with Http GET method</li>
+                            </ul>
+
+                         <h5 class="sub-header">
+                            Request & Response Format:
+                         </h5>
+                            <ul>
+                                <li>You need to pass valid parameters only in Like.</li>
+                                <li>If you pass any wrong and invalid file so api will give you a message Like: failed to download file.</li>
+                                <li>All types of validation also there so use this API very carefully.</li>
+                            </ul>
+                         <h5 class="sub-header">
+                            API Flow:
+                         </h5>
+                            <ul>
+                                <li>When you call this API with parameters then only you can access this API.</li>
+                                <li>And also you have to pass jwt token inside header section.</li>
+                                <li>After valid token your your file be downloaded.</li>
+                            </ul>
+                         <div class="cont-head">
+                            <p class="cont-text" >// need to pass parameters:</p>
+                            <p class="cont-text">{"type":1}{"id":1}</p>
+
+                        </div>
+                            <ul>
+                                <li>If you passed any wrong parameters and invalid params then you will get a error response </li>
+                                <li>Error Response</li>
+                            </ul>
+                         <div class="cont-head">
+                            <p class="cont-text" >// need to pass parameters:</p>
+                            <p class="cont-text">{'message':'failed to download file.'}</p>
+
+                    </div>
+
+                        <ul>
+                            <li>After successfully file downloading you will get a API response</li>
+                            <li>Success Response</li>
+                        </ul>
+                     <div class="cont-head">
+                        <p class="cont-text" >// need to pass parameters:</p>
+                        <p class="cont-text">You will get file object</p>
+
+                </div>
+
+<div class="content-header mt-5">
+                                <div class="content-poperty">
+                                    <h6 class="content-text">Api</h6>
+                                    <h6 class="content-text" onclick="copyTextToClipboard(this, 'codeToCopy3')" id="myid2"><i class="fa fa-clipboard" aria-hidden="true"></i> Copy Code</h6>
+                                </div>
+                            </div>
+                            <div class="layout-st" id="codeToCopy3">
+                                <p class="layout-text" >url = "https://cloud.dentread.com/downloadfile"</p>
+                                <p class="layout-text" >payload = {
+    'type': '1',
+    'id': '1'
+}</p>
+                                <p class="layout-text" >headers = {
+    "Authorization": "XXXXXXXXXXXXXXXX"
+}</p>
+                                <p class="layout-text" >response = requests.get(url, data=payload, headers=headers)</p>
+
+                            </div>
+
+                    </div>
+
+                    <div class="tab-pane fade data-targetView-7" id="try-tb" role="tabpanel" aria-labelledby="try-tb-tb">
+                        {% include 'swagger.html' %}
+
+                    </div>
+                    <div class="tab-pane fade data-targetView-8"  role="tabpanel" aria-labelledby="try-tb-tb">
+                         <h4>
+                                Getting Started With Dentread
+                            </h4>
+                            <hr>
+                            <h5 class="sub-header">
+                               Welcome to Dentread API documentation!
+                            </h5>
+                            <p>
+                                At Dentread we want to ensure that all of our creators have the tools and resources to prosper. We provide our API and developer resources to supplement  capabilities and help others solve the unique needs of our creators, whether you're:
+                            </p>
+                            <ul class="sub-linkheader">
+                                <li>An organization building a custom, in-house solution for your own needs
+                                </li>
+                                <li>An partner building customized learning experiences for your clients
+                                </li>
+
+                            </ul>
+
+
+                                    <h5 class="sub-header">
+                                        2. Excellent Market Opportunity
+                                     </h5>
+                                     <p>
+                                        Dentread is a market leader in this space. When you register your account with Dentread, you are tapping into a market with:
+                                    </p>
+                                    <p>
+                                        Dentread is the first company in the this industry creator space to offer a public API and an aggregated. Since its launch in May of 2023, the Dentread have multiple offers growing every month!</p>
+                                        <h5 class="sub-header">
+                                            Full Community Support
+                                         </h5>
+                                         <p class="sub-linkheader">
+                                            Dentread invests in its developer community. We provide: </p>
+                                            <ul >
+                                                <li>A dedicated Slack community with over Rest API developers and Dentread experts</li>
+                                                <li>Priority support from our Partner Support Specialist Team at support@dentread.com
+                                                </li>
+                                            </ul>
+
+                    </div>
+
+
+                    <div class="tab-pane fade data-targetView-1" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+                        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                            <h4>
+                                Getting Started With Dentread
+                            </h4>
+                            <hr>
+                            <h5 class="sub-header">
+                               Welcome to Dentread API documentation!
+                            </h5>
+                            <p>
+                                At Dentread we want to ensure that all of our creators have the tools and resources to prosper. We provide our API and developer resources to supplement  capabilities and help others solve the unique needs of our creators, whether you're:
+                            </p>
+                            <ul class="sub-linkheader">
+                                <li>An organization building a custom, in-house solution for your own needs
+                                </li>
+                                <li>An partner building customized learning experiences for your clients
+                                </li>
+
+                            </ul>
+
+
+                                    <h5 class="sub-header">
+                                        2. Excellent Market Opportunity
+                                     </h5>
+                                     <p>
+                                        Dentread is a market leader in this space. When you register your account with Dentread, you are tapping into a market with:
+                                    </p>
+                                    <p>
+                                        Dentread is the first company in the this industry creator space to offer a public API and an aggregated. Since its launch in May of 2023, the Dentread have multiple offers growing every month!</p>
+                                        <h5 class="sub-header">
+                                            Full Community Support
+                                         </h5>
+                                         <p class="sub-linkheader">
+                                            Dentread invests in its developer community. We provide: </p>
+                                            <ul >
+                                                <li>A dedicated Slack community with over Rest API developers and Dentread experts</li>
+                                                <li>Priority support from our Partner Support Specialist Team at support@dentread.com
+                                                </li>
+                                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+<!--            <div class="flex-items myCustom3">-->
+<!--                <div class="tab-content" id="v-pills-tabContent" style="padding: 1.5rem;">-->
+<!--                    <div class="tab-pane fade show active myContent" id="myCodeContentFirst" role="tabpanel" aria-labelledby="v-pills-home-tab">-->
+<!--                        <div class="custom-content">-->
+<!--                            <p>-->
+<!--                                You can call this API through below give code:-->
+<!--                             </p>-->
+<!--                            <div class="content-header">-->
+<!--                                <div class="content-poperty" >-->
+<!--                                    <h6 class="content-text">Api</h6>-->
+<!--                                    <h6 class="content-text" onclick="copyTextToClipboard(this, 'codeToCopy1')"><i class="fa fa-clipboard" aria-hidden="true"></i> Copy Code</h6>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="layout-st" id="codeToCopy1">-->
+<!--                                <p class="layout-text" >url = "https://cloud.dentread.com/authenticate"</p>-->
+<!--                                <p class="layout-text" >payload = {-->
+<!--    'email': 'example@gmail.com',-->
+<!--    'password': 'xxxxxxxxxx'-->
+<!--}</p>-->
+<!--                                <p class="layout-text" >response = requests.post(url, data=payload)</p>-->
+
+<!--                            </div>-->
+
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="tab-pane fade myContent" id="myCodeContentfive" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">-->
+<!--                        <div class="custom-content">-->
+<!--                            <div class="content-header ">-->
+<!--                                <div class="content-poperty">-->
+<!--                                    <h6> Im From Ayodha.</h6>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="tab-pane fade myContent" id="myCodeContentThird" role="tabpanel" aria-labelledby="v-pills-messages-tab">-->
+<!--                        <h6>-->
+<!--                            I'm From Gaziabad.-->
+<!--                        </h6>-->
+<!--                    </div>-->
+<!--                    <div class="tab-pane fade myContent" id="myCodeContentForth" role="tabpanel" aria-labelledby="v-pills-settings-tab">-->
+<!--                        I'm From Mumbai.-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--         </div>-->
+        <!-- Bootstrap CDN -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </body>
+
+    <script>
+        document.querySelector('.navbar-toggler').addEventListener('click', hideExtraContent);
+        let firstTime = true;
+        function hideExtraContent(){
+            let showContains = document.querySelector('#navbarNav').classList.contains('show');
+            if(!firstTime){
+                showContains = !showContains;
+            }
+            firstTime = false
+
+            if(!showContains){
+                document.querySelector('#navbarParent').style.padding = '0';
+                console.log("the second console is: ",document.querySelector('#navbarParent'), document.querySelector('#navbarParent').style.padding)
+            }
+        }
+        hideExtraContent();
+    </script>
+
+    <script>
+        function openTab(event, tabId) {
+            console.log('Inside Function');
+            // Get all tab content elements
+            var tabContents = document.getElementsByClassName('myContent');
+
+            // Hide all tab content
+            for (var i = 0; i < tabContents.length; i++) {
+                tabContents[i].style.display = 'none';
+            }
+            // Show the selected tab content
+            var selectedTab = document.getElementById(tabId);
+            selectedTab.style.display = 'block';
+        }
+    </script>
+
+<script>
+        let prevTar;
+        document.querySelector('.apiCallClass').addEventListener('click', function(ev){
+			// console.log(ev.target);
+			ev.preventDefault();
+			
+			console.log('inside the if statement ')
+			let mainTar = ev.target;
+			while(!mainTar.classList.contains('nav-sub-link')){
+				mainTar = mainTar.parentElement;
+			}
+			console.log(mainTar);
+			let customTarget = mainTar.getAttribute('data-view');
+
+            let ele = document.querySelector('.tab-pane--enclosing .show.active');
+            ele.classList.remove('active');
+            ele.classList.remove('show');
+
+            document.querySelector(`.tab-pane--enclosing .data-targetView-${customTarget}`).classList.add('show');
+            document.querySelector(`.tab-pane--enclosing .data-targetView-${customTarget}`).classList.add('active');
+
+
+		})
+
+      function copyTextToClipboard(button, elementId) {
+        // Get the text content from the target element
+        const codeToCopy = document.getElementById(elementId).innerText;
+        var headingElement = document.getElementById("myid1");
+
+        var headingText = headingElement.textContent;
+
+
+        console.log(button,'button');
+
+        // Create a temporary textarea element
+        const textarea = document.createElement('textarea');
+        textarea.value = codeToCopy;
+        document.body.appendChild(textarea);
+        headingElement.textContent = "Copied!";
+
+        setTimeout(function() {
+            headingElement.textContent = headingText;
+             }, 2000);
+
+        // Select the text within the textarea
+        textarea.select();
+        textarea.setSelectionRange(0, textarea.value.length);
+
+        // Copy the selected text to the clipboard
+        document.execCommand('copy');
+
+        // Remove the temporary textarea
+        document.body.removeChild(textarea);
+
+        // Show popup
+        showPopup(button);
+      }
+
+      function showPopup(button) {
+        const popup = button.nextElementSibling;
+
+        popup.style.display = 'block';
+
+        setTimeout(function() {
+          popup.style.display = 'none';
+        }, 2000);
+      }
+    </script>
+</html>
+{% endblock %}
+

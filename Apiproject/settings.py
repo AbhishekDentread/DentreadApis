@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 HOST_IP = 'localhost'
 DB_PORT = '3306'
 
@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+
 INSTALLED_APPS = [
     # 'django.contrib.admin',
     'django.contrib.auth',
@@ -42,7 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'api',
     'rest_framework',
-    'rest_framework_simplejwt'
+    'rest_framework_simplejwt',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -63,7 +65,7 @@ ROOT_URLCONF = 'Apiproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,6 +77,9 @@ TEMPLATES = [
         },
     },
 ]
+
+
+
 
 WSGI_APPLICATION = 'Apiproject.wsgi.application'
 
@@ -154,12 +159,14 @@ SIMPLE_JWT = {
 }
 
 # settings.py
-
+STATICFILES_DIRS = [
+    str(BASE_DIR / "static"),
+    "/var/www/static/",
+]
 from datetime import timedelta
 
-# Set the expiration time for access tokens (default: 5 minutes)
+# SimpleJWT settings
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
-    # Add other settings as needed
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # Set the access token lifetime to 1 hour
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),  # Set the refresh token lifetime to 30 days
 }

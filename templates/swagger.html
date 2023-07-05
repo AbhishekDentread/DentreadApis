@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Redoc</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/redoc@latest/redoc.min.css">
+</head>
+<body>
+    <div id="redoc"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/redoc@latest/bundles/redoc.standalone.js"></script>
+    <script>
+        window.onload = function() {
+            Redoc.init('/api/api.json', {
+                // Custom options
+            }, document.getElementById('redoc'));
+        };
+    </script>
+</body>
+</html>

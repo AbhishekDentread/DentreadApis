@@ -97,6 +97,7 @@ class Organisation(models.Model):
     invoiceMonth = models.IntegerField(null=True, blank=True, default=0)
     invoicePath = models.FileField(upload_to='static/orgInvoice/')
     lab_connection = models.CharField(null=True, blank=True, max_length=200)
+    uniquekey = models.CharField(max_length=100, null=True, blank=True)
 
     class Meta:
         managed = False
@@ -332,3 +333,23 @@ class OtherImageFile(models.Model):
         managed = False
         db_table = 'dent_otherimagefile'
 
+
+class Push_Meta_Data(models.Model):
+    id = models.AutoField(primary_key=True)
+    orgid = models.ForeignKey(Organisation, on_delete=models.CASCADE)
+    userid = models.CharField(max_length=20, null = True, blank = True)
+    patiant = models.CharField(max_length=100, null = True, blank = True)
+    age = models.IntegerField(null = True, blank = True)
+    gender = models.CharField(max_length=6,null = True, blank = True)
+    date = models.DateField(default=date.today)
+    status = models.CharField(max_length=20)
+
+
+class Pushed_File_Data(models.Model):
+    id = models.AutoField(primary_key=True)
+    pmd_data = models.ForeignKey(Push_Meta_Data, on_delete=models.CASCADE,null = True, blank = True)
+    filename = models.CharField(max_length=100, null=True, blank=True)
+    filesize = models.CharField(max_length=100, null=True, blank=True)
+    stydyinstanceUID = models.CharField(max_length=100, null = True, blank = True)
+    parentpatienintances = models.CharField(max_length=100, null = True, blank = True)
+    parentstudy = models.CharField(max_length=100, null = True, blank = True)

@@ -1,12 +1,40 @@
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from api.views import *
 from api.tests import *
+from api.clientfile import *
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+from rest_framework import permissions
+
+
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Dentread REST API",
+        default_version='',
+        description="",
+        terms_of_service="",
+
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
+
+
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path('authenticate/',  AuthenticateView.as_view()),
-    path('uploadfile/', OrthancUploadfile.as_view(), name='upload'),
-    path('DownloanFile/', DownloanFile.as_view(), name='upload'),
+    path('uploadfile/', UploadFileView.as_view(), name='upload'),
+    path('downloadfile/', DownloanFileView.as_view()),
+    path('apidocuments/', apidocuments, name='upload'),
+    path('auththenticate/',  AuthView.as_view(),name='auth'),
+    path('myapi/', schema_view.with_ui('swagger',
+                                 cache_timeout=0), name='schema-swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc',
+                                       cache_timeout=0), name='schema-redoc'),
+
+    path('api/api.json/', schema_view.without_ui(cache_timeout=0),
+         name='schema-swagger-ui'),
 ]
